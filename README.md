@@ -1,2 +1,1 @@
-# d-sektionen_calendar
-New booking for the car and other stuff
+# Bilbokningssystem för D-sektionens nya bil
