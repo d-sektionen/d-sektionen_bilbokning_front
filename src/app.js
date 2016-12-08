@@ -5,7 +5,8 @@ import MasterPage from './pages/MasterPage'
 import StartPage from './pages/StartPage'
 import { IndexRoute,IndexRedirect, Router, Route, browserHistory } from 'react-router';
 
-require('./react-big-calendar.css');
+require('../public/stylesheets/react-big-calendar.css');
+
 
 init();
 
@@ -16,7 +17,6 @@ function init() {
             <Route path='/' component={MasterPage}>
                 <IndexRoute component = {StartPage}/>
             </Route>
-            
         </Router>
 
     );
