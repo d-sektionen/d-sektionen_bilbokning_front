@@ -1,0 +1,39 @@
+
+
+.description-box{
+    margin-top: 5%;
+    text-align: center;
+
+}
+
+.calendar-widget{
+    margin-top: 5%;
+    margin-bottom: 40%;
+    margin-left: 5%;
+    margin-right: 5%;
+    heigth: 60%;
+}
+
+.calendar-widget .calendar{
+    height: 100%;
+
+}
+
+
+.calendar-widget .rbc-header{
+}
+
+.table-header{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-right: 5%;
+    background: #3174ad;
+
+}
+
+.table-header .title{
+    color: white;
+    margin-left: 10%;
+}
