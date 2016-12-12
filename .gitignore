@@ -42,3 +42,5 @@ jspm_packages
 build/
 node_modules/
 public/bundle.js
+/.eslintrc.json
+.eslintrc.json

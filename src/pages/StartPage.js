@@ -3,7 +3,7 @@
  */
 
 import React from 'react'
-import Calendar from '../components/Calendar'
+import Calendar from '../components/Calendar.jsx'
 
 
 
@@ -20,7 +20,6 @@ export default class StartPage extends React.Component{
                     <div className="table-header"><h4 className="title">Nuvarande bokning</h4></div>
                     <div className="table-header"><h4 className="title">Uppkommande bokningar</h4></div>
                     <Calendar/>
-
                 </div>
             </div>
         );

@@ -1,9 +1,8 @@
 /**
  * Created by gustavaaro on 2016-11-22.
  */
-import React from 'react'
-import BigCalendar from 'react-big-calendar'
-import {Button} from 'react-bootstrap'
+import React from 'react';
+import BigCalendar from 'react-big-calendar';
 import eventlist from '../services/events'
 var moment = require('moment');
 
@@ -18,6 +17,7 @@ let Selectable = React.createClass({
 
     getInitialState: function() {
         return(
+            
             {selStart: null,selEnd: null, events: events, numberValue: "", descriptionValue: ""}
         );
     },
@@ -33,8 +33,6 @@ let Selectable = React.createClass({
             this.setState({events:events});
             return;
         }
-
-
 
         if(!this.checkCollision(currentSelected)){
             this.onSuccess("Bilen är bokad " + moment(this.state.selStart).format("DD MMM YYYY H:mm") + " till " + moment(this.state.selEnd).format("DD MMM YYYY H:mm"));
@@ -101,8 +99,6 @@ let Selectable = React.createClass({
             dateFormat: 'DD mm YY',
             dayFormat: (date, culture, localizer) =>
                 localizer.format(date, 'DD MMM YY', culture),
-
-
         };
 
         return (
@@ -113,6 +109,7 @@ let Selectable = React.createClass({
                     events= {events.concat(currentSelected)}
                     selectable
                     culture = 'sv'
+                    messages={{next:"Nästa",previous:"Föregående",today:"Idag",week:"Vecka", month:"Månad",day:"Dag",allDay:"Heldag",showMore:"Visa mer", date:"Datum", time:"Tid", event:"Event", agenda:"Agenda"}}
                     defaultView='week'
                     defaultDate={new Date()}
                     components={{event: this.eventView}}
