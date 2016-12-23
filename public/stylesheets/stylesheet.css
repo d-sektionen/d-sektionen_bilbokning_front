@@ -23,14 +23,19 @@
 .calendar-widget .rbc-header{
 }
 
-.table-header{
+.overview-box{
     padding-top: 4px;
     padding-bottom: 4px;
     margin-left: 5%;
     margin-top: 2%;
     margin-right: 5%;
-    background: #3174ad;
+}
 
+.overview-box .header{
+    background-color: #3174ad;
+    border-color: #3174ad;
+    color: white;
+    padding-left: 9px;
 }
 
 .table-header .title{

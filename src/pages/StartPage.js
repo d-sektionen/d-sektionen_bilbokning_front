@@ -4,11 +4,23 @@
 
 import React from 'react'
 import Calendar from '../components/Calendar.jsx'
-
+import AgendaBox from '../components/AgendaBox.js'
+import events from '../services/EventService'
 
 
 
 export default class StartPage extends React.Component{
+
+    constructor(){
+        super();
+        this.state = {key: Math.random()};
+        this.onSuccessfulBooking = this.onSuccessfulBooking.bind(this);
+    }
+
+    
+    onSuccessfulBooking(){
+        this.setState({key: Math.random});
+    }
 
 
     render(){
@@ -17,9 +29,8 @@ export default class StartPage extends React.Component{
             <div>
                 <div className="description-box"><h3>Välkommen till Bilbokningen! Välj en ledig tid och tryck på boka.</h3></div>
                 <div>
-                    <div className="table-header"><h4 className="title">Nuvarande bokning</h4></div>
-                    <div className="table-header"><h4 className="title">Uppkommande bokningar</h4></div>
-                    <Calendar/>
+                    <AgendaBox numberOfRows={5} key={this.state.key}/>
+                    <Calendar  onSuccess={this.onSuccessfulBooking}/>
                 </div>
             </div>
         );
