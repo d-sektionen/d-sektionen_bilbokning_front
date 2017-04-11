@@ -7,11 +7,10 @@
 }
 
 .calendar-widget{
-    margin-top: 5%;
-    margin-bottom: 40%;
-    margin-left: 5%;
-    margin-right: 5%;
-    heigth: 60%;
+    padding-top: 5%;
+    padding-bottom: 40%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .calendar-widget .calendar{

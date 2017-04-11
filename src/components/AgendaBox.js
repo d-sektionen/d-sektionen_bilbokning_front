@@ -1,7 +1,7 @@
 /**
  * Created by gustavaaro on 2016-12-22.
  */
-import React from 'React';
+import React from 'react';
 import EventService from '../services/EventService.js'
 var moment = require('moment');
 require('moment/locale/sv');
