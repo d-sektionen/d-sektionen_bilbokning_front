@@ -4,6 +4,7 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import EventService from '../services/EventService'
+import AgendaBox from './AgendaBox'
 var moment = require('moment');
 
 

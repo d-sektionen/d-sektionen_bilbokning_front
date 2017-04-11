@@ -17,7 +17,7 @@ export default class StartPage extends React.Component{
         this.onSuccessfulBooking = this.onSuccessfulBooking.bind(this);
     }
 
-    
+
     onSuccessfulBooking(){
         this.setState({key: Math.random});
     }
@@ -35,6 +35,6 @@ export default class StartPage extends React.Component{
             </div>
         );
     }
-    
-    
+
+
 }
