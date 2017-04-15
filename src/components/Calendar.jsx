@@ -4,29 +4,44 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import EventService from '../services/EventService'
-import AgendaBox from './AgendaBox'
 var moment = require('moment');
 
-
-var events = EventService.getEvents();
+var events = [];
 var currentSelected = [{}];
 var result = <div></div>;
 require('moment/locale/sv');
 moment().format('DDDD MMMM YY');
 
-let Selectable = React.createClass({
+export default class Calendar extends React.Component {
 
-    getInitialState: function () {
+    constructor(){
+        super();
+        this.state = this.getInitialState();
+        this.getEvents();
+    }
+
+    getInitialState() {
         return (
 
-        {selStart: null, selEnd: null, events: events, numberValue: "", descriptionValue: ""}
+        {selStart: null, selEnd: null, events: [], numberValue: "", descriptionValue: ""}
         );
-    },
-    onTimeSlotSelected: function (event) {
+    }
+
+    getEvents(){
+
+        EventService.getAllEvents(function (response) {
+            this.setState({events: response});
+            events = response;
+        }.bind(this))
+
+    }
+
+    onTimeSlotSelected(event) {
         currentSelected = [{'title': 'Nuvarande val', 'start': event.start, 'end': event.end, 'description': ""}];
         this.setState({selStart: event.start, selEnd: event.end, events: events});
-    },
-    onBook: function () {
+    }
+
+    onBook() {
 
         //TODO: Maybe a better phone number validation regex?
 
@@ -41,7 +56,9 @@ let Selectable = React.createClass({
             //return;
         }
 
-        if (!this.checkCollision(currentSelected)) {
+        if(moment(currentSelected[0].end) <= moment(new Date())){
+            this.onFail("Tiden du har valt är ej gitlig.");
+        } else if (!this.checkCollisions(currentSelected[0])) {
             this.onSuccess("Bilen är bokad " + moment(this.state.selStart).format("DD MMM YYYY H:mm") + " till " + moment(this.state.selEnd).format("DD MMM YYYY H:mm"));
             if (this.state.descriptionValue.length > 0) {
                 currentSelected[0].description = this.state.descriptionValue;
@@ -49,9 +66,13 @@ let Selectable = React.createClass({
             currentSelected[0].title = "LIU ID";
             currentSelected[0].phone = this.state.numberValue;
             events = events.concat(currentSelected);
-            EventService.addEvent(currentSelected[0]);
+            EventService.addEvent(currentSelected[0],function(response){
+                console.log("RESPONSE:");
+                console.log(response);
+                this.getEvents();
+            });
             this.props.onSuccess();
-        } else {
+        } else{
             this.onFail("Tiden du valt är tyvärr inte ledig. Välj en annan tid.");
         }
         currentSelected = [{}];
@@ -59,35 +80,38 @@ let Selectable = React.createClass({
         this.setState({events: events});
 
 
-    },
-    onFail: function (message) {
+    }
+
+    onFail(message) {
         result = <div className="alert alert-danger">
             <strong>Bokningen gick inte att genomföra.</strong> {message}
         </div>;
-    },
-    onSuccess: function (message) {
+    }
+
+    onSuccess(message) {
         result = <div className="alert alert-success">
             <strong>Bokning genomförd!</strong> {message}
         </div>;
-    },
+    }
 
-    checkCollision: function (range) {
+    checkCollisions(event) {
         for (let i = 0; i < events.length; i += 1) {
-
-            if (moment(range[0].start) <= moment(events[i].end) && moment(range[0].end) >= moment(events[i].start)) {
+            if (moment(event.start) <= moment(events[i].end) && moment(event.end) >= moment(events[i].start)) {
                 return true;
             }
         }
         return false;
-    },
+    }
 
-    onPhoneNumberChange: function (event) {
+    onPhoneNumberChange(event) {
         this.setState({numberValue: event.target.value});
-    },
-    onDescriptionChange: function (event) {
-        this.setState({descriptionValue: event.target.value})
-    },
-    eventView: function ({event}) {
+    }
+
+    onDescriptionChange(event) {
+        this.setState({descriptionValue: event.target.value});
+    }
+
+    eventView({event}) {
         return (
             <span>
                     <strong>
@@ -96,9 +120,9 @@ let Selectable = React.createClass({
                     <div style={{marginTop: 10}}>{event.description}</div>
                 </span>
         )
-    },
+    }
 
-    render: function () {
+    render() {
 
 
         BigCalendar.momentLocalizer(moment);
@@ -115,7 +139,7 @@ let Selectable = React.createClass({
                 <BigCalendar
                     className="calendar"
                     timeslots={2}
-                    events={events.concat(currentSelected)}
+                    events={this.state.events.concat(currentSelected)}
                     selectable
                     culture='sv'
                     messages={{next:"Nästa",previous:"Föregående",today:"Idag",week:"Vecka", month:"Månad",day:"Dag",allDay:"Heldag", date:"Datum", time:"Tid", event:"Event", agenda:"Agenda"}}
@@ -136,16 +160,15 @@ let Selectable = React.createClass({
                     <div className="form-group">
                         <label for="description">Beskrivning</label>
                         <textarea className="form-control" id="description" placeholder="Beskrivning"
-                                  value={this.state.descriptionValue} onChange={this.onDescriptionChange} rows="3"/>
+                                  value={this.state.descriptionValue} onChange={this.onDescriptionChange.bind(this)} rows="3"/>
                     </div>
                 </form>
-                <button className="btn btn-success" onClick={this.onBook}>Boka</button>
+                <button className="btn btn-success" onClick={this.onBook.bind(this)}>Boka</button>
 
             </div>
         );
     }
 
 
-});
-export default Selectable;
+}
 

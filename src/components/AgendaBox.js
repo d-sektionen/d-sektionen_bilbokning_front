@@ -16,7 +16,7 @@ export default class AgendaBox extends React.Component{
     }
 
     getCurrent(){
-        let events = EventService.getEvents();
+        let events = []; //EventService.getEvents();
         let current;
         for(var i = 0; i < events.length; i ++){
             if (moment(events[i].start) <= moment(new Date()) && moment(events[i].end) >= moment(new Date())) {
@@ -24,27 +24,31 @@ export default class AgendaBox extends React.Component{
                 break;
             }
         }
+
         if(current != null){
             return <tbody><tr>
                 <td>{current.title}</td>
                 <td>{moment(current.start).format("DD MMM YYYY H:mm") + "  -  " + moment(current.end).format("DD MMM YYYY H:mm")}</td>
+                <td>{current.description}</td>
                 <td>{current.phone}</td>
             </tr></tbody>
-        } else return <tbody></tbody>
+        } else return <tbody><tr><td>För nuvarande är bilen ledig.</td></tr></tbody>
 
 
     }
 
     getUpcomingEvents(){
-        let upcomingEvents = EventService.getEvents();
+        let upcomingEvents = [];//EventService.getEvents();
         var rows = [];
-        var n = Math.min(upcomingEvents.length,this.props.numberOfRows);
-
+        let n = Math.min(upcomingEvents.length,this.props.numberOfRows);
+        let current;
         for(var i = 0; i < n; i++){
+            current = upcomingEvents[i];
             rows.push(<tr>
-                        <td>{upcomingEvents[i].title}</td>
-                        <td>{moment(upcomingEvents[i].start).format("DD MMM YYYY H:mm") + "  -  " + moment(upcomingEvents[i].end).format("DD MMM YYYY H:mm")}</td>
-                        <td>{upcomingEvents[i].phone}</td>
+                        <td>{current.title}</td>
+                        <td>{moment(current.start).format("DD MMM YYYY H:mm") + "  -  " + moment(upcomingEvents[i].end).format("DD MMM YYYY H:mm")}</td>
+                        <td>{current.description}</td>
+                        <td>{current.phone}</td>
                     </tr>)
         }
 
@@ -59,8 +63,9 @@ export default class AgendaBox extends React.Component{
                         <caption className="header">Nuvarande bokning</caption>
                         <thead>
                         <tr>
-                            <th>Liu-id</th>
+                            <th>LiU-id</th>
                             <th>Datum</th>
+                            <th>Beskrivning</th>
                             <th>Telefon</th>
                         </tr>
                         </thead>
@@ -70,8 +75,9 @@ export default class AgendaBox extends React.Component{
                     <caption className="header">Uppkommande bokningar</caption>
                     <thead>
                     <tr>
-                        <th>Liu-id</th>
+                        <th>LiU-id</th>
                         <th>Datum</th>
+                        <th>Beskrivning</th>
                         <th>Telefon</th>
                     </tr>
                     </thead>
