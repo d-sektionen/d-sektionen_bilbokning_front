@@ -4,7 +4,7 @@
 
 import axios from 'axios'
 
-
+var request = require('superagent');
 var startDate = new Date();
 var endDate = new Date(startDate);
 endDate.setHours(23);
@@ -19,29 +19,29 @@ export default class EventService {
     }
     
     static addEvent(event, callback){
-        //events.push(event)
 
-        axios({
-            method:'post',
-            url:'https://d-sektionen.se/api/bilbokning/bookings',
-            contentType:'application/json',
-            body: {
-                "liu_id": "LIU_ID",
-                "description":event.description,
-                "start": Math.floor(event.start.getTime()/1000),
-                "end": Math.floor(event.end.getTime()/1000)
-            }
-        })
-            .then(function(response) {
-               callback(response);
+        let data = {
+            liu_id: "LIU_ID",
+            description: event.description,
+            start: Math.floor(event.start.getTime()/1000),
+            end: Math.floor(event.end.getTime()/1000)
+        };
+
+        request
+            .post('https://d-sektionen.se/api/bilbokning/bookings')
+            .send(data)
+            .set('Content-Type', 'application/json')
+            .end(function(err, res){
+                callback(res,err);
             });
+
     }
 
 
     
     static getAllEvents(callback){
 
-        let currTime = Math.floor(new Date().getTime()/1000) - 100*3600; //Timezone correction. Probably not a good solution
+        let currTime = Math.floor(new Date().getTime()/1000) - 2*3600; //Timezone correction. Probably not a good solution
         console.log('https://d-sektionen.se/api/bilbokning/bookings?user=all&from_time='+ currTime);
         axios({
             method:'get',

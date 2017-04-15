@@ -29,7 +29,7 @@ export default class Calendar extends React.Component {
 
     getEvents(){
 
-        EventService.getAllEvents(function (response) {
+        EventService.getAllEvents(function (response, err) {
             this.setState({events: response});
             events = response;
         }.bind(this))
@@ -70,7 +70,7 @@ export default class Calendar extends React.Component {
                 console.log("RESPONSE:");
                 console.log(response);
                 this.getEvents();
-            });
+            }.bind(this));
             this.props.onSuccess();
         } else{
             this.onFail("Tiden du valt är tyvärr inte ledig. Välj en annan tid.");

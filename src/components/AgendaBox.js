@@ -12,11 +12,24 @@ export default class AgendaBox extends React.Component{
 
     constructor(){
         super();
-        this.getUpcomingEvents.bind(this)
+        this.getUpcomingEvents.bind(this);
+        this.state = this.getInitialState();
+        this.getEvents();
+    }
+
+    getInitialState(){
+        return ({events: []})
+    }
+
+    getEvents(){
+        EventService.getAllEvents(function (res) {
+            console.log(res);
+            this.setState({events: res})
+        }.bind(this));
     }
 
     getCurrent(){
-        let events = []; //EventService.getEvents();
+        let events = this.state.events;
         let current;
         for(var i = 0; i < events.length; i ++){
             if (moment(events[i].start) <= moment(new Date()) && moment(events[i].end) >= moment(new Date())) {
@@ -38,10 +51,11 @@ export default class AgendaBox extends React.Component{
     }
 
     getUpcomingEvents(){
-        let upcomingEvents = [];//EventService.getEvents();
+        let upcomingEvents = this.state.events;
         var rows = [];
         let n = Math.min(upcomingEvents.length,this.props.numberOfRows);
         let current;
+        upcomingEvents.reverse();
         for(var i = 0; i < n; i++){
             current = upcomingEvents[i];
             rows.push(<tr>
