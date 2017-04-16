@@ -2,6 +2,7 @@
   "name": "temp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://beta.d-sektionen.se/bilbokning",
   "dependencies": {
     "axios": "^0.16.1",
     "cldr": "^3.5.2",
