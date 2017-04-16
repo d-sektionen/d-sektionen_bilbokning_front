@@ -14,7 +14,7 @@ function init() {
 
     var routes = (
         <Router history={browserHistory}>
-            <Route path='/bilbokning' component={MasterPage}>
+            <Route path='/' component={MasterPage}>
                 <IndexRoute component = {StartPage}/>
             </Route>
         </Router>
